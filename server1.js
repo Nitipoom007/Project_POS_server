@@ -297,7 +297,6 @@ app.post('/api/addbillitem', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 //---------------------------------------------------------------
 
 //--------------------------report bill-------------------------------
@@ -588,7 +587,6 @@ app.put('/api/updateproduct/:id', async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-
 //-------------------------------------------------------------------------------
 
 // Test endpoint
