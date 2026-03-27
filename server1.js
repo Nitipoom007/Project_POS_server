@@ -54,6 +54,18 @@ const pool = mysql.createPool({
   // connectionLimit: 10,
   // queueLimit: 0
 // });
+app.get('/', (req, res) => {
+  res.send('OK ROOT WORKING');
+});
+app.use((req, res, next) => {
+  console.log("👉 REQUEST:", req.method, req.url);
+  next();
+});
+app.use((req, res, next) => {
+  console.log("👉 REQUEST:", req.method, req.url);
+  next();
+});
+// ----------
 app.get('/api/debug-db', async (req, res) => {
   try {
     console.log("Testing DB...");
@@ -859,9 +871,7 @@ app.get('/api/test', (req, res) => {
     console.error("❌ DB ERROR:", err);
   }
 })();
-app.get('/', (req, res) => {
-  res.send('OK ROOT WORKING');
-});
+
 // Start the server
 app.listen(port, '0.0.0.0', () => {
   console.log(`Server running at port : ${port}`);
