@@ -7,20 +7,29 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
-const port = 3001;
+// const port = 3001;
+const port = process.env.PORT || 3001;
 
 app.use(cors({
   origin: 'http://localhost:3000'
 }));
 
 const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '',
-  database: 'pos',
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
   waitForConnections: true,
   connectionLimit: 10,
-  queueLimit: 0
+  // host: 'localhost',
+  // user: 'root',
+  // // password: '',
+  // password: process.env.DB_PASSWORD,
+  // database: 'pos',
+  // waitForConnections: true,
+  // connectionLimit: 10,
+  // queueLimit: 0
   // host: 'mysql.railway.internal',   // เปลี่ยนจาก localhost
   // host: 'mysql-production-4b8d.up.railway.app',   // เปลี่ยนจาก localhost
   // port: 3306,                        // ใส่ port ของ Railway
@@ -63,29 +72,45 @@ app.post('/api/userslogin', async (req, res) => {
 //----------------------------------------------------------------
 
 //--------------------------show users---------------------------------
+// app.get('/api/showusers', async (req, res) => {
+//   try {
+//     const sql = `
+//       SELECT 
+//         user_id,
+//         user_name,
+//         user_fn,
+//         user_tel,
+//         user_address,
+//         user_email,
+//         user_status
+//       FROM Users
+//     `;
+
+//     const [rows] = await pool.query(sql);
+
+//     res.json({
+//       message: 'success',
+//       data: rows
+//     });
+
+//   } catch (err) {
+//     console.error(err);
+//     res.status(500).json({ error: err.message });
+//   }
+// });
 app.get('/api/showusers', async (req, res) => {
   try {
-    const sql = `
-      SELECT 
-        user_id,
-        user_name,
-        user_fn,
-        user_tel,
-        user_address,
-        user_email,
-        user_status
-      FROM Users
-    `;
+    console.log("Fetching users...");
+    const [rows] = await pool.query("SELECT * FROM Users");
 
-    const [rows] = await pool.query(sql);
+    console.log("RESULT:", rows);
 
     res.json({
       message: 'success',
       data: rows
     });
-
   } catch (err) {
-    console.error(err);
+    console.error("ERROR:", err);
     res.status(500).json({ error: err.message });
   }
 });
