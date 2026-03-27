@@ -1,3 +1,4 @@
+console.log("🔥 NEW CODE VERSION 999");
 const express = require('express');
 const multer = require('multer');
 const upload = multer();
@@ -826,4 +827,5 @@ app.get('/api/test', (req, res) => {
 // Start the server
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
+  console.log("🔥 THIS IS NEW CODE");
 });
