@@ -140,7 +140,7 @@ app.post('/api/userslogin', async (req, res) => {
 app.get('/api/showusers', async (req, res) => {
   try {
     console.log("Fetching users...");
-    const [rows] = await pool.query("SELECT * FROM Users");
+    const [rows] = await pool.query("SELECT * FROM users");
 
     console.log("RESULT:", rows);
 
