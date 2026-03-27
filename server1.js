@@ -15,11 +15,11 @@ app.use(cors({
 }));
 
 const pool = mysql.createPool({
-  host: process.env.DB_HOST,
-  port: process.env.DB_PORT,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
+  host: process.env.MYSQLHOST,
+  port: process.env.MYSQLPORT,
+  user: process.env.MYSQLUSER,
+  password: process.env.MYSQLPASSWORD,
+  database: process.env.MYSQLDATABASE,
   waitForConnections: true,
   connectionLimit: 10,
   // host: 'localhost',
