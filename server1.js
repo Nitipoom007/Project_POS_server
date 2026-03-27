@@ -22,9 +22,10 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0
   // host: 'mysql.railway.internal',   // เปลี่ยนจาก localhost
+  // host: 'mysql-production-4b8d.up.railway.app',   // เปลี่ยนจาก localhost
   // port: 3306,                        // ใส่ port ของ Railway
   // user: 'root',                      // เปลี่ยนตาม Railway
-  // password: 'DJREMhHZjbEzVQISZlfadtEyJtvCNdMu', // เปลี่ยนตาม Railway
+  // password: 'WUeaNdyRwNLaFOrKJJhvQqOZGRypELvC', // เปลี่ยนตาม Railway
   // database: 'railway',               // เปลี่ยนตาม Railway
   // waitForConnections: true,
   // connectionLimit: 10,
