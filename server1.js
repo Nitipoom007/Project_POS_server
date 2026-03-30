@@ -247,13 +247,14 @@ app.post('/api/addproducts', async (req, res) => {
       cost,
       detail,
       date,        // ✅ YYYY-MM-DD
-      quantity
+      quantity,
+      userID
     } = req.body;
 
     const sql = `
       INSERT INTO products
-      (product_barcode, product_name, category_id, unit_id, product_price, product_cost, product_detail, date, product_quantity)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+      (product_barcode, product_name, category_id, unit_id, product_price, product_cost, product_detail, date, product_quantity, user_id)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `;
 
     const [result] = await pool.query(sql, [
@@ -265,7 +266,8 @@ app.post('/api/addproducts', async (req, res) => {
       cost,
       detail,
       date,       // ✅ เก็บตรง ๆ
-      quantity
+      quantity,
+      userID
     ]);
 
     res.json({
