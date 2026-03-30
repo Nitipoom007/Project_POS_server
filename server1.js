@@ -871,46 +871,6 @@ app.put('/api/updatecash', async (req, res) => {
 });
 //---------------------------------------------------------------------------------
 
-const escpos = require('escpos');
-escpos.USB = require('escpos-usb');
-
-app.post('/api/print', (req, res) => {
-  try {
-    const device = new escpos.USB();
-    const printer = new escpos.Printer(device);
-
-    device.open(() => {
-      printer
-        .align('ct')
-        .text('MY SHOP')
-        .text('----------------')
-        .text('Hello World')
-        .cut()
-        .close();
-    });
-
-    res.json({ message: 'Print sent' });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ error: err.message });
-  }
-});
-
-app.get('/test-print', (req, res) => {
-  const device = new escpos.USB();
-  const printer = new escpos.Printer(device);
-
-  device.open(() => {
-    printer
-      .text('TEST PRINT OK')
-      .cut()
-      .close();
-  });
-
-  res.send('PRINTING...');
-});
-
 // Test endpoint
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend บน Windows ทำงานแล้ว 🎉' });
