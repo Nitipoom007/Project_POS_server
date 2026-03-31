@@ -235,45 +235,37 @@ app.get('/api/unit', async (req, res) => {
 
 //-----------------------add product-----------------------------
 app.post('/api/addproducts', async (req, res) => {
-  console.log('BODY:', req.body);
-
+  console.log('BODY addproducts:', req.body);
   try {
     const {
-      barcode,
-      name,
-      categoryID,
-      unitID,
-      price,
-      cost,
-      detail,
-      date,        // ✅ YYYY-MM-DD
-      quantity,
-      userID
+      barcode, name, categoryID, unitID, price, cost, detail, date, quantity, userID, isUpdate
     } = req.body;
 
-    const sql = `
-      INSERT INTO products
-      (product_barcode, product_name, category_id, unit_id, product_price, product_cost, product_detail, date, product_quantity, user_id)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
+    if (isUpdate) {
+      // --- กรณีอัปเดตค่าเดิม ---
+      const sqlUpdate = `
+        UPDATE products 
+        SET product_name = ?, category_id = ?, unit_id = ?, product_price = ?, 
+            product_cost = ?, product_detail = ?, product_quantity = ?, date = ?, user_id = ?
+        WHERE product_barcode = ?
+      `;
+      await pool.query(sqlUpdate, [
+        name, categoryID, unitID, price, cost, detail, quantity, date, userID, barcode
+      ]);
+      return res.json({ message: 'Product updated successfully' });
 
-    const [result] = await pool.query(sql, [
-      barcode,
-      name,
-      categoryID,
-      unitID,
-      price,
-      cost,
-      detail,
-      date,       // ✅ เก็บตรง ๆ
-      quantity,
-      userID
-    ]);
-
-    res.json({
-      message: 'Product added successfully',
-      productId: result.insertId
-    });
+    } else {
+      // --- กรณีเพิ่มใหม่ (โค้ดเดิมของคุณ) ---
+      const sqlInsert = `
+        INSERT INTO products 
+        (product_barcode, product_name, category_id, unit_id, product_price, product_cost, product_detail, date, product_quantity, user_id) 
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+      `;
+      const [result] = await pool.query(sqlInsert, [
+        barcode, name, categoryID, unitID, price, cost, detail, date, quantity, userID
+      ]);
+      return res.json({ message: 'Product added successfully', productId: result.insertId });
+    }
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
